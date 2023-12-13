@@ -31,25 +31,37 @@ struct ContentView: View {
                     .foregroundColor(.black)
             }
             .overlay() {
-                Rectangle()
-                    .blendMode(.exclusion)
-                    .frame(width: 150, height: 150)
-                    .foregroundColor(.white)
-                    .cornerRadius(15)
-                    .offset(movingSquare)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { movingSquare = $0.translation }
-                            .onEnded { _ in
-                                withAnimation(.spring()) {
-                                    movingSquare = .zero
-                                }
+                ZStack {
+                    Rectangle()
+                        .blendMode(.exclusion)
+                        .foregroundColor(.white)
+                        .cornerRadius(15)
+                    Rectangle()
+                        .blendMode(.color)
+                        .cornerRadius(15)
+                    Rectangle()
+                        .blendMode(.overlay)
+                        .foregroundColor(.white)
+                        .cornerRadius(15)
+                    Rectangle()
+                        .blendMode(.overlay)
+                        .foregroundColor(.black)
+                        .cornerRadius(15)
+                }
+                .frame(width: 150, height: 150)
+                .offset(movingSquare)
+                .gesture(
+                    DragGesture()
+                        .onChanged { movingSquare = $0.translation }
+                        .onEnded { _ in
+                            withAnimation(.spring()) {
+                                movingSquare = .zero
                             }
-                    )
+                        }
+                )
             }
         }
         .ignoresSafeArea()
-        
     }
 }
 
